@@ -31,7 +31,7 @@ public class PartieMonoJoueur {
 	 * @throws IllegalStateException si la partie est terminée
 	 * @return vrai si le joueur doit lancer à nouveau pour continuer son tour, faux sinon	
 	 */
-	public boolean enregistreLancer(int nombreDeQuillesAbattues) throws IllegalStateException {
+	public boolean enregistreLancer(int nombreDeQuillesAbattues) {
 		if (indiceTour==9 && LesTours.get(9).getFini()){
 			throw new IllegalStateException("La partie est finie rentre chez toi");
 		}
