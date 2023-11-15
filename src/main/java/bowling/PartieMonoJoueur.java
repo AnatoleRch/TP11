@@ -50,7 +50,11 @@ public class PartieMonoJoueur {
 	 * @return Le score du joueur
 	 */
 	public int score() {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		int tot=0;
+		for (Tour t : LesTours){
+			tot=tot+t.getScore();
+		}
+		return tot;
 	}
 
 	/**
