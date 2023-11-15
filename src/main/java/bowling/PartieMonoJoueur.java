@@ -35,7 +35,10 @@ public class PartieMonoJoueur {
 		if (indiceTour==9 && LesTours.get(9).getFini()){
 			throw new IllegalStateException("La partie est finie rentre chez toi");
 		}
-		
+		LesTours.get(indiceTour).addLancer(new Lancer(nombreDeQuillesAbattues));
+
+
+
 		if (LesTours.get(indiceTour).getFini()){
 			return false;
 		}else{
@@ -61,7 +64,11 @@ public class PartieMonoJoueur {
 	 * @return vrai si la partie est terminée pour ce joueur, faux sinon
 	 */
 	public boolean estTerminee() {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		if (indiceTour==9 && LesTours.get(9).getFini()){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 
@@ -69,7 +76,7 @@ public class PartieMonoJoueur {
 	 * @return Le numéro du tour courant [1..10], ou 0 si le jeu est fini
 	 */
 	public int numeroTourCourant() {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		return indiceTour+1;
 	}
 
 	/**
