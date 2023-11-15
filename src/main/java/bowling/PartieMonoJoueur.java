@@ -36,7 +36,11 @@ public class PartieMonoJoueur {
 			throw new IllegalStateException("La partie est finie rentre chez toi");
 		}
 		
-		return true;
+		if (LesTours.get(indiceTour).getFini()){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	/**
