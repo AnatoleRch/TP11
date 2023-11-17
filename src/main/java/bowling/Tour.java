@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Tour {
 
-    private TYPE_TOUR typeTour;
-    private boolean fini;
-    private ArrayList<Lancer> lancers;
-    private int score;
-    private int nbBonus;
+    protected TYPE_TOUR typeTour;
+    protected boolean fini;
+    protected ArrayList<Lancer> lancers;
+    protected int score;
+    protected int nbBonus;
 
     public Tour() {
         fini=false;
@@ -22,17 +22,18 @@ public class Tour {
         if (fini) {
             //erreur
         }
-        if (!lancers.isEmpty() && a.getNbQuille()+lancers.get(1).getNbQuille()>10){
+        if (!lancers.isEmpty() && a.getNbQuille()+lancers.get(0).getNbQuille()>10){
             //erreur
         }
-        if (a.getNbQuille()==10 && lancers.isEmpty()){
-           fini=true; 
-           typeTour= TYPE_TOUR.strike;
-        }
-        if (a.getNbQuille()!=10 && lancers.isEmpty()){
-            //rien
-        }
-        if (!lancers.isEmpty()){
+        if (lancers.isEmpty()) {
+            if (a.getNbQuille()==10){
+                fini=true; 
+                typeTour= TYPE_TOUR.strike;
+            }
+            if (a.getNbQuille()!=10){
+                //rien
+            }
+        }else{
             if (a.getNbQuille()+lancers.get(0).getNbQuille()==10){
                 fini=true; 
                 typeTour= TYPE_TOUR.spare;
@@ -68,6 +69,9 @@ public class Tour {
     }
     public TYPE_TOUR getTypeTour(){
         return typeTour;
+    }
+    public int GetLancers(){
+        return lancers.size();
     }
 
 }

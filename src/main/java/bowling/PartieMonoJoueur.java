@@ -17,7 +17,7 @@ public class PartieMonoJoueur {
 	 */
 	public PartieMonoJoueur() {
 		LesTours = new ArrayList<Tour>();
-		for (int i=0 ; i<9 ;i++){
+		for (int i=0 ; i<10 ;i++){
 			LesTours.add(new Tour());
 		}
 		LesTours.add(new DernierTour());
@@ -32,16 +32,49 @@ public class PartieMonoJoueur {
 	 * @return vrai si le joueur doit lancer à nouveau pour continuer son tour, faux sinon	
 	 */
 	public boolean enregistreLancer(int nombreDeQuillesAbattues) {
-		if (indiceTour==9 && LesTours.get(9).getFini()){
+		if (indiceTour==10 && LesTours.get(10).getFini()){
 			throw new IllegalStateException("La partie est finie rentre chez toi");
 		}
 		LesTours.get(indiceTour).addLancer(new Lancer(nombreDeQuillesAbattues));
 
+		// gestion score spare/strike
+		
 
+		if (indiceTour>0){
+			if (LesTours.get(indiceTour) instanceof DernierTour){
+			if (LesTours.get(indiceTour).GetLancers()==1){
 
+				if(LesTours.get(indiceTour-2).getTypeTour()==TYPE_TOUR.strike){
+					LesTours.get(indiceTour-2).scoreBonus(nombreDeQuillesAbattues);
+				}
+				
+			}
+
+			} else if (LesTours.get(indiceTour-1).getTypeTour()==TYPE_TOUR.strike){
+				LesTours.get(indiceTour-1).scoreBonus(nombreDeQuillesAbattues);
+
+				if (LesTours.get(indiceTour).GetLancers()==1){
+					if (indiceTour>1)if(LesTours.get(indiceTour-2).getTypeTour()==TYPE_TOUR.strike){
+						LesTours.get(indiceTour-2).scoreBonus(nombreDeQuillesAbattues);
+					}
+				}
+			
+			} else if (LesTours.get(indiceTour-1).getTypeTour()==TYPE_TOUR.spare) {
+				if (LesTours.get(indiceTour).GetLancers()==1){
+					LesTours.get(indiceTour-1).scoreBonus(nombreDeQuillesAbattues);
+					
+				}
+			}
+		}
+
+		//fini
 		if (LesTours.get(indiceTour).getFini()){
+			indiceTour=indiceTour+1;
+			
 			return false;
+			
 		}else{
+			
 			return true;
 		}
 	}
@@ -64,7 +97,7 @@ public class PartieMonoJoueur {
 	 * @return vrai si la partie est terminée pour ce joueur, faux sinon
 	 */
 	public boolean estTerminee() {
-		if (indiceTour==9 && LesTours.get(9).getFini()){
+		if (indiceTour==10 && LesTours.get(9).getFini()){
 			return true;
 		}else{
 			return false;
@@ -76,6 +109,7 @@ public class PartieMonoJoueur {
 	 * @return Le numéro du tour courant [1..10], ou 0 si le jeu est fini
 	 */
 	public int numeroTourCourant() {
+		if(indiceTour==10)return 0;
 		return indiceTour+1;
 	}
 
@@ -84,7 +118,7 @@ public class PartieMonoJoueur {
 	 *         est fini
 	 */
 	public int numeroProchainLancer() {
-		throw new UnsupportedOperationException("Pas encore implémenté");
+		return LesTours.get(indiceTour).GetLancers()+1;
 	}
 
 }
